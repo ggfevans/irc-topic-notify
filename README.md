@@ -2,7 +2,9 @@
 
 A lightweight IRC bot that monitors channel topics for specific phrases and sends push notifications via [Pushover](https://pushover.net).
 
-<img src="screenshot.png" width="350" alt="Pushover notification screenshot">
+<p align="center">
+  <img src="screenshot.png" width="350" alt="iOS Pushover notification showing an IRC topic change alert that dude has run out of eggs">
+</p>
 
 ## Use Cases
 
