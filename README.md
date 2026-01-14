@@ -1,5 +1,9 @@
 # irc-topic-notify
 
+[![Tests](https://github.com/ggfevans/irc-topic-notify/actions/workflows/test.yml/badge.svg)](https://github.com/ggfevans/irc-topic-notify/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
 A lightweight IRC bot that monitors channel topics for specific phrases and sends push notifications via [Pushover](https://pushover.net).
 
 <p align="center">
