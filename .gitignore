@@ -20,3 +20,7 @@ venv/
 .pytest_cache/
 htmlcov/
 coverage.xml
+
+# Claude
+CLAUDE.md
+.claude/
