@@ -12,5 +12,8 @@ ExecStart=/opt/irc-topic-notify/venv/bin/python /opt/irc-topic-notify/irc_topic_
 Restart=always
 RestartSec=30
 
+# Health check: curl http://127.0.0.1:8080/health
+# Returns 200 when connected, 503 when disconnected
+
 [Install]
 WantedBy=multi-user.target

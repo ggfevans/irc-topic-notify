@@ -49,3 +49,6 @@ NOTIFICATION_COOLDOWN_MINUTES = 30
 
 # Logging level: DEBUG, INFO, WARNING, ERROR
 LOG_LEVEL = "INFO"
+
+# Health check HTTP port (for Docker/systemd monitoring)
+HEALTH_PORT = 8080

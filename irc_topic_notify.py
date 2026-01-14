@@ -24,8 +24,10 @@ import logging
 import signal
 import ssl
 import sys
+import threading
 import time
 from datetime import datetime, timedelta
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import requests
 from irc.bot import SingleServerIRCBot
@@ -48,6 +50,10 @@ try:
         from config import TRIGGER_CASE_SENSITIVE
     except ImportError:
         TRIGGER_CASE_SENSITIVE = True
+    try:
+        from config import HEALTH_PORT
+    except ImportError:
+        HEALTH_PORT = 8080
 except ImportError:
     print("ERROR: config.py not found!")
     print("Copy config.example.py to config.py and add your Pushover tokens.")
@@ -63,6 +69,9 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 logger = logging.getLogger(__name__)
+
+# Global state for health checks
+_bot_status: dict[str, any] = {"connected": False, "channel_joined": False}
 
 # =============================================================================
 # Utility Functions
@@ -137,6 +146,40 @@ def check_trigger(topic_text: str) -> bool:
 
 
 # =============================================================================
+# Health Check Server
+# =============================================================================
+
+class HealthHandler(BaseHTTPRequestHandler):
+    """Simple HTTP handler for health checks."""
+
+    def do_GET(self):
+        if self.path == "/health" or self.path == "/":
+            if _bot_status["channel_joined"]:
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b"OK")
+            else:
+                self.send_response(503)
+                self.end_headers()
+                self.wfile.write(b"Not connected")
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def log_message(self, format, *args):
+        pass  # Suppress request logging
+
+
+def start_health_server(port: int) -> HTTPServer:
+    """Start health check server in background thread."""
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    logger.info(f"Health server listening on port {port}")
+    return server
+
+
+# =============================================================================
 # IRC Bot
 # =============================================================================
 
@@ -175,6 +218,7 @@ class TopicMonitor(SingleServerIRCBot):
     
     def on_welcome(self, connection, event):
         """Connected to server."""
+        _bot_status["connected"] = True
         logger.info(f"Connected to {IRC_SERVER}. Joining {self.channel}...")
         connection.join(self.channel)
     
@@ -187,6 +231,7 @@ class TopicMonitor(SingleServerIRCBot):
     def on_join(self, connection, event):
         """Joined channel."""
         if event.source.nick == connection.get_nickname():
+            _bot_status["channel_joined"] = True
             logger.info(f"Successfully joined {self.channel}")
     
     def on_currenttopic(self, connection, event):
@@ -235,6 +280,8 @@ class TopicMonitor(SingleServerIRCBot):
     
     def on_disconnect(self, connection, event):
         """Disconnected from server."""
+        _bot_status["connected"] = False
+        _bot_status["channel_joined"] = False
         if self._shutdown:
             logger.info("Disconnected (shutdown requested)")
         else:
@@ -244,6 +291,7 @@ class TopicMonitor(SingleServerIRCBot):
         """Kicked from channel."""
         kicked_nick = event.arguments[0] if event.arguments else ""
         if kicked_nick == connection.get_nickname():
+            _bot_status["channel_joined"] = False
             logger.warning(f"Kicked from {self.channel}. Rejoining in 30s...")
             time.sleep(30)
             connection.join(self.channel)
@@ -301,6 +349,9 @@ def main() -> None:
     logger.info(f"Trigger: '{TRIGGER_PHRASE}'")
     logger.info(f"Cooldown: {NOTIFICATION_COOLDOWN_MINUTES} minutes")
     logger.info("=" * 50)
+
+    # Start health check server
+    health_server = start_health_server(HEALTH_PORT)
     
     bot = TopicMonitor()
     

@@ -1,0 +1,14 @@
+LICENSE
+README.md
+irc_topic_notify.py
+pyproject.toml
+irc_topic_notify.egg-info/PKG-INFO
+irc_topic_notify.egg-info/SOURCES.txt
+irc_topic_notify.egg-info/dependency_links.txt
+irc_topic_notify.egg-info/entry_points.txt
+irc_topic_notify.egg-info/requires.txt
+irc_topic_notify.egg-info/top_level.txt
+tests/test_bot.py
+tests/test_config.py
+tests/test_notification.py
+tests/test_trigger.py
