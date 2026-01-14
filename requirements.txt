@@ -1,6 +1,6 @@
 # Pinned for reproducibility
 irc==20.5.0
-requests==2.32.4
+requests==2.32.5
 
 # irc library dependencies (installed automatically)
 # jaraco.collections
