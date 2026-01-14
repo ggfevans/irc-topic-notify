@@ -4,7 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-A lightweight IRC bot that monitors channel topics for specific phrases and sends push notifications via [Pushover](https://pushover.net).
+Topics are important. People change them and then what? You're supposed to just know? You're supposed to be watching the channel 24/7? You have a life. You have things to do.
+
+This bot watches IRC channel topics so you don't have to. When the topic changes to something you care about, you'll know. Immediately. [Pushover](https://pushover.net) notification straight to your phone.
 
 <p align="center">
   <img src="screenshot.png" width="350" alt="iOS Pushover notification showing an IRC topic change alert that dude has run out of eggs">
@@ -12,9 +14,9 @@ A lightweight IRC bot that monitors channel topics for specific phrases and send
 
 ## Use Cases
 
-- **Game server status**: get notified when your server's IRC channel topic changes to "ONLINE" or "MAINTENANCE COMPLETE"
-- **Incident response**: alert when a team channel topic changes to "INCIDENT IN PROGRESS"
-- **Community events**: catch when a channel topic updates to "LIVE NOW" for streams or events
+- **Game server status**: your server's IRC channel topic changes to "ONLINE" and you're not there? Unacceptable. Now you'll know.
+- **Incident response**: team channel topic changes to "INCIDENT IN PROGRESS" at 3am? You'll know. Immediately.
+- **Community events**: someone updates the topic to "LIVE NOW" and you miss it? Not anymore. That's the whole point of this.
 
 ## Features
 
@@ -24,7 +26,7 @@ A lightweight IRC bot that monitors channel topics for specific phrases and send
 - **Auto-reconnect**: handles disconnections gracefully
 - **Systemd ready**: includes service file for daemonized operation
 - **Docker support**: run with docker compose or standalone container
-- **Read-only**: bot never sends messages to the channel
+- **Read-only**: bot never sends messages to the channel. It just watches. Quietly. Professionally.
 
 ## Requirements
 
