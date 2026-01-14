@@ -1,0 +1,6 @@
+services:
+  irc-topic-notify:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./config.py:/app/config.py:ro
