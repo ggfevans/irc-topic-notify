@@ -1,0 +1,16 @@
+[Unit]
+Description=IRC Topic Notify - channel topic monitor with push notifications
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ircmonitor
+Group=ircmonitor
+WorkingDirectory=/opt/irc-topic-notify
+ExecStart=/opt/irc-topic-notify/venv/bin/python /opt/irc-topic-notify/irc_topic_notify.py
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

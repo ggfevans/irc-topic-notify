@@ -1,0 +1,15 @@
+# Pinned for reproducibility
+irc==20.5.0
+requests==2.32.4
+
+# irc library dependencies (installed automatically)
+# jaraco.collections
+# jaraco.functools
+# jaraco.logging
+# jaraco.stream
+# more-itertools
+# tempora
+
+# Development dependencies (install with: pip install -r requirements-dev.txt)
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
