@@ -165,3 +165,7 @@ MIT License - see [LICENSE](LICENSE)
 ## Contributing
 
 Issues and PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+Built with [Claude Code](https://claude.ai/code) 🤖
